@@ -6,7 +6,7 @@ namespace MVCIdentity.Identity.Context
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDisposable
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("Identity", throwIfV1Schema: false)
         {
         }
 
