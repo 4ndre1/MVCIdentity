@@ -85,9 +85,9 @@
     <Compile Include="Config\SmsService.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Context\ApplicationUser.cs" />
-    <Compile Include="Migrations\201806250238281_Inicial.cs" />
-    <Compile Include="Migrations\201806250238281_Inicial.Designer.cs">
-      <DependentUpon>201806250238281_Inicial.cs</DependentUpon>
+    <Compile Include="Migrations\201806300430244_AlteraNomeTabela.cs" />
+    <Compile Include="Migrations\201806300430244_AlteraNomeTabela.Designer.cs">
+      <DependentUpon>201806300430244_AlteraNomeTabela.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AddPhoneNumberViewModel.cs" />
@@ -114,8 +114,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806250238281_Inicial.resx">
-      <DependentUpon>201806250238281_Inicial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806300430244_AlteraNomeTabela.resx">
+      <DependentUpon>201806300430244_AlteraNomeTabela.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
