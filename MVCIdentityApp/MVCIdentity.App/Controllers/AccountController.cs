@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MVCIdentity.App.Models;
 using MVCIdentity.Identity.Config;
 using MVCIdentity.Identity.Context;
 using MVCIdentity.Identity.Model;
@@ -20,6 +19,14 @@ namespace MVCIdentity.App.Controllers
     {
         public AccountController() : base()
         {
+        }
+
+        //
+        // GET: /Account/Teste
+        [AllowAnonymous]
+        public ActionResult Teste()
+        {
+            return View();
         }
 
         //
