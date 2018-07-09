@@ -1,5 +1,4 @@
-﻿@using System.Web.Optimization
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -35,12 +34,14 @@
             </nav>
         </div>
         <main class="mdl-layout__content">
-            <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--4-col">Content</div>
-                <div class="mdl-cell mdl-cell--4-col">goes</div>
-                <div class="mdl-cell mdl-cell--4-col">here</div>
+            <div class="page-content">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col">Content</div>
+                    <div class="mdl-cell mdl-cell--4-col">goes</div>
+                    <div class="mdl-cell mdl-cell--4-col">here</div>
+                </div>
+                @RenderBody()
             </div>
-            @RenderBody()
         </main>
     </div>
     @*<div class="navbar navbar-inverse navbar-fixed-top">

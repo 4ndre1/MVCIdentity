@@ -1,0 +1,22 @@
+﻿.mdl-card-center {
+    margin: auto;
+    position: relative;
+    top: 180px;
+}
+
+.mdl-card__title {
+    background-color: rgb(0,188,212);
+    color: rgb(66,66,66);
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mdl-login-footer {
+    width: 330px;
+    margin: auto;
+    position: relative;
+    top: 190px;
+    text-align: center;
+}

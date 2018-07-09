@@ -24,7 +24,8 @@ namespace MVCIdentity.App
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/Styles/material.min.css",
-                      "~/Content/Styles/font.material.css"));
+                      "~/Content/Styles/font.material.css",
+                      "~/Content/Styles/site.css"));
 
             bundles.Add(new ScriptBundle("~/Content/scripts").Include(
                       "~/Content/Scripts/material.min.js"));

@@ -203,6 +203,7 @@
     <Content Include="Content\Scripts\material.min.js" />
     <Content Include="Content\Styles\font.material.css" />
     <Content Include="Content\Styles\material.min.css" />
+    <Content Include="Content\Styles\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -259,6 +260,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Teste.cshtml" />
+    <Content Include="Views\Account\Teste2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

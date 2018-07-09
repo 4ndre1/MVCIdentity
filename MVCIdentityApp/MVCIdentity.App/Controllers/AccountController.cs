@@ -26,6 +26,16 @@ namespace MVCIdentity.App.Controllers
         [AllowAnonymous]
         public ActionResult Teste()
         {
+            //Tela de login!!
+            return View();
+        }
+
+        //
+        // GET: /Account/Teste2
+        [AllowAnonymous]
+        public ActionResult Teste2()
+        {
+            //Tela de registrar novo usuário!!
             return View();
         }
 
