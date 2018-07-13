@@ -8,69 +8,14 @@
     @Scripts.Render("~/Content/scripts")
 </head>
 <body>
-    <div class="mdl-layout mdl-js-layout">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout-icon"></div>
-            <div class="mdl-layout__header-row">
-                <span class="mdl-layout__title">Material Design Lite</span>
-                <div class="mdl-layout-spacer"></div>
-                <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="#">Hello</a>
-                    <a class="mdl-navigation__link" href="#">World.</a>
-                    <a class="mdl-navigation__link" href="#">How</a>
-                    <a class="mdl-navigation__link" href="#">Are</a>
-                    <a class="mdl-navigation__link" href="#">You?</a>
-                </nav>
-            </div>
-        </header>
-        <div class="mdl-layout__drawer">
-            <span class="mdl-layout__title">Material Design Lite</span>
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="#">Hello</a>
-                <a class="mdl-navigation__link" href="#">World.</a>
-                <a class="mdl-navigation__link" href="#">How</a>
-                <a class="mdl-navigation__link" href="#">Are</a>
-                <a class="mdl-navigation__link" href="#">You?</a>
-            </nav>
-        </div>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <main class="mdl-layout__content">
-            <div class="page-content">
-                <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--4-col">Content</div>
-                    <div class="mdl-cell mdl-cell--4-col">goes</div>
-                    <div class="mdl-cell mdl-cell--4-col">here</div>
-                </div>
+            <div class="page-content" style="height: 600px">
+                @Html.ValidationSummary()
                 @RenderBody()
             </div>
         </main>
     </div>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Example ASP.NET Identity</p>
-            </footer>
-        </div>*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
