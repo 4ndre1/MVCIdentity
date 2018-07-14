@@ -1,4 +1,16 @@
-﻿.mdl-card-center {
+﻿.validation-summary-errors {
+    margin: auto;
+    width: 400px;
+    position: relative;
+    top: 175px;
+    color: #d50000;
+}
+
+.validation-summary-errors ul li{
+    list-style-type: none;
+}
+
+.mdl-card-center {
     margin: auto;
     position: relative;
     top: 180px;

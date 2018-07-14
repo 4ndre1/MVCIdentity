@@ -22,24 +22,6 @@ namespace MVCIdentity.App.Controllers
         }
 
         //
-        // GET: /Account/Teste
-        [AllowAnonymous]
-        public ActionResult Teste()
-        {
-            //Tela de login!!
-            return View();
-        }
-
-        //
-        // GET: /Account/Teste2
-        [AllowAnonymous]
-        public ActionResult Teste2()
-        {
-            //Tela de registrar novo usuário!!
-            return View();
-        }
-
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -62,7 +44,7 @@ namespace MVCIdentity.App.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -70,7 +52,7 @@ namespace MVCIdentity.App.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.LembrarMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -139,7 +121,7 @@ namespace MVCIdentity.App.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Senha);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

@@ -11,10 +11,10 @@ namespace MVCIdentity.Identity.Model
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+        [Display(Name = "Senha")]
+        public string Senha { get; set; }
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        [Display(Name = "Lembrar me?")]
+        public bool LembrarMe { get; set; }
     }
 }
