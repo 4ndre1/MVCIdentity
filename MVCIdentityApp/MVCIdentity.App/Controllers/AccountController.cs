@@ -43,6 +43,7 @@ namespace MVCIdentity.App.Controllers
                 return View(model);
             }
 
+            //Caso o usuário não confirme seu registro, enviamos o email novamente
             var user = await UserManager.FindAsync(model.Email, model.Senha);
             if (user != null && !user.EmailConfirmed)
             {
@@ -145,9 +146,7 @@ namespace MVCIdentity.App.Controllers
                     
                     //return RedirectToAction("Index", "Home");
 
-                    ModelState.Clear();
-
-                    return View();
+                    return View("Login");
                 }
                 AddErrors(result);
             }
@@ -156,9 +155,22 @@ namespace MVCIdentity.App.Controllers
             return View(model);
         }
 
+        //
+        // GET: /Account/GenerateTokenEmailAgain
         [AllowAnonymous]
         public async Task<ActionResult> GenerateTokenEmailAgain(int userId)
         {
+            var user = await UserManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            //Caso o usuário já tenha confirmado seu registro, redireciono para o login!
+            if (user.EmailConfirmed)
+            {
+                return RedirectToAction("Login");
+            }
+
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
 
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
@@ -219,10 +231,10 @@ namespace MVCIdentity.App.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                await UserManager.SendEmailAsync(user.Id, "Nova senha!", "Por favor para criar uma nova senha clica neste link: \n\n " + callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -240,9 +252,23 @@ namespace MVCIdentity.App.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public async Task<ActionResult> ResetPassword(int userId, string code)
         {
-            return code == null ? View("Error") : View();
+            if (userId == 0 || code == null)
+            {
+                return View("Error");
+            }
+
+            var user = await UserManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var model = new ResetPasswordViewModel() {Email = user.Email, Code = code };
+
+            return View(model);
         }
 
         //
@@ -262,7 +288,7 @@ namespace MVCIdentity.App.Controllers
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Senha);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
