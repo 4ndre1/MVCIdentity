@@ -42,12 +42,12 @@ namespace MVCIdentity.App.Controllers
             {
                 return View(model);
             }
-            
-            //var user = await UserManager.FindAsync(model.Email, model.Senha);
-            //if (user != null && !user.EmailConfirmed)
-            //{
-            //    return RedirectToAction("GenerateTokenEmailAgain", new {userId = user.Id});
-            //}
+
+            var user = await UserManager.FindAsync(model.Email, model.Senha);
+            if (user != null && !user.EmailConfirmed)
+            {
+                return RedirectToAction("GenerateTokenEmailAgain", new { userId = user.Id });
+            }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -145,6 +145,8 @@ namespace MVCIdentity.App.Controllers
                     
                     //return RedirectToAction("Index", "Home");
 
+                    ModelState.Clear();
+
                     return View();
                 }
                 AddErrors(result);
@@ -162,7 +164,7 @@ namespace MVCIdentity.App.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
             await UserManager.SendEmailAsync(userId, "Confirme seu registro!", "Por favor confirma sua conta clicando neste link: \n\n" + callbackUrl);
 
-            ViewBag.Mensagem = "Verifique seu e-mail e confirme seu endereço.<br> Caso o e-mail não chegue clique neste <a href=\"" + callbackUrl + "\">link</a> para enviar o email novamente!";
+            ViewBag.Mensagem = "Verifique seu e-mail e confirme seu endereço.<br> Caso o e-mail não chegue clique neste <a href=\"" + Url.Action("GenerateTokenEmailAgain", new { userId = userId }) + "\">link</a> para enviar o email novamente!";
 
             return View("Login");
         }

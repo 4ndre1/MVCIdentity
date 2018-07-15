@@ -1,9 +1,17 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Erro";
+    Layout = "~/Views/Shared/_LayoutIdentity.cshtml";
 }
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="mdl-card mdl-card-center mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card--expand">
+        <h4 class="mdl-card__title-text">Erro</h4>
+    </div>
+    <div class="mdl-card__supporting-text" style="text-align: justify">
+        <p class="mdl-typography--title" style="margin-bottom: 5px">
+            Um erro ocorreu durante o processamento. Contate o adminitrador!
+        </p>
+    </div>
+</div>
 
