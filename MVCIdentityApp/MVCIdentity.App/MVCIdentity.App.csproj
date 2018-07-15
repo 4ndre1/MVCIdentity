@@ -198,16 +198,19 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Imagens\android-desktop.png" />
+    <Content Include="Content\Imagens\dog.png" />
+    <Content Include="Content\Imagens\favicon.png" />
+    <Content Include="Content\Imagens\ios-desktop.png" />
+    <Content Include="Content\Imagens\user.jpg" />
     <Content Include="Content\Scripts\material.min.js" />
     <Content Include="Content\Styles\font.material.css" />
     <Content Include="Content\Styles\material.min.css" />
-    <Content Include="Content\Styles\site.css" />
+    <Content Include="Content\Styles\site-login.css" />
+    <Content Include="Content\Styles\site-portal.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -235,7 +238,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutIdentity.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -261,6 +264,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Teste.cshtml" />
     <Content Include="Views\Account\Teste2.cshtml" />
+    <Content Include="Views\Shared\_LayoutPortal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

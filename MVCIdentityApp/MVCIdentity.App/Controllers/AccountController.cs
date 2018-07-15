@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVCIdentity.Identity.Config;
 using MVCIdentity.Identity.Context;
+using MVCIdentity.Identity.Context.Models;
 using MVCIdentity.Identity.Model;
 
 namespace MVCIdentity.App.Controllers
@@ -41,10 +42,16 @@ namespace MVCIdentity.App.Controllers
             {
                 return View(model);
             }
+            
+            //var user = await UserManager.FindAsync(model.Email, model.Senha);
+            //if (user != null && !user.EmailConfirmed)
+            //{
+            //    return RedirectToAction("GenerateTokenEmailAgain", new {userId = user.Id});
+            //}
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -120,19 +127,25 @@ namespace MVCIdentity.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Senha);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //Não autenticar o usuário até confirmar o email!
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirme seu registro!", "Por favor confirma sua conta clicando neste link: \n\n" + callbackUrl);
 
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Mensagem = "Verifique seu e-mail e confirme seu endereço.<br> Caso o e-mail não chegue clique neste <a href=\"" + 
+                                       Url.Action("GenerateTokenEmailAgain", new { userId = user.Id }) + "\">link</a> para enviar o email novamente!";
+                    
+                    //return RedirectToAction("Index", "Home");
+
+                    return View();
                 }
                 AddErrors(result);
             }
@@ -141,17 +154,41 @@ namespace MVCIdentity.App.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> GenerateTokenEmailAgain(int userId)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userId, "Confirme seu registro!", "Por favor confirma sua conta clicando neste link: \n\n" + callbackUrl);
+
+            ViewBag.Mensagem = "Verifique seu e-mail e confirme seu endereço.<br> Caso o e-mail não chegue clique neste <a href=\"" + callbackUrl + "\">link</a> para enviar o email novamente!";
+
+            return View("Login");
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(int userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId == 0 || code == null)
             {
                 return View("Error");
             }
+
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                return View("ConfirmEmail");
+            }
+
+            return View("Error");
         }
 
         //
@@ -336,7 +373,7 @@ namespace MVCIdentity.App.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

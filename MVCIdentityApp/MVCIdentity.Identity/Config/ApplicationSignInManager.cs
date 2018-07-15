@@ -4,18 +4,19 @@ using Microsoft.Owin.Security;
 using MVCIdentity.Identity.Context;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MVCIdentity.Identity.Context.Models;
 
 namespace MVCIdentity.Identity.Config
 {
     // Configure the application sign-in manager which is used in this application.
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : SignInManager<User, int>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(User user)
         {
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }

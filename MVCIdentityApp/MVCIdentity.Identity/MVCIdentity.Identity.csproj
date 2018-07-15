@@ -65,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -84,10 +85,16 @@
     <Compile Include="Config\EmailService.cs" />
     <Compile Include="Config\SmsService.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
-    <Compile Include="Context\ApplicationUser.cs" />
-    <Compile Include="Migrations\201806300430244_AlteraNomeTabela.cs" />
-    <Compile Include="Migrations\201806300430244_AlteraNomeTabela.Designer.cs">
-      <DependentUpon>201806300430244_AlteraNomeTabela.cs</DependentUpon>
+    <Compile Include="Context\Models\Role.cs" />
+    <Compile Include="Context\Models\User.cs" />
+    <Compile Include="Context\Models\UserClaim.cs" />
+    <Compile Include="Context\Models\UserLogin.cs" />
+    <Compile Include="Context\Models\UserRole.cs" />
+    <Compile Include="Context\Stores\RoleStore.cs" />
+    <Compile Include="Context\Stores\UserStore.cs" />
+    <Compile Include="Migrations\201807142356044_ChavePrimaryKeyToInt.cs" />
+    <Compile Include="Migrations\201807142356044_ChavePrimaryKeyToInt.Designer.cs">
+      <DependentUpon>201807142356044_ChavePrimaryKeyToInt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AddPhoneNumberViewModel.cs" />
@@ -114,8 +121,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806300430244_AlteraNomeTabela.resx">
-      <DependentUpon>201806300430244_AlteraNomeTabela.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807142356044_ChavePrimaryKeyToInt.resx">
+      <DependentUpon>201807142356044_ChavePrimaryKeyToInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

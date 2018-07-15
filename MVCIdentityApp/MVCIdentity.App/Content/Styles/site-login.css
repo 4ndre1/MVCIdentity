@@ -6,6 +6,15 @@
     color: #d50000;
 }
 
+.info-summary {
+    margin: auto;
+    width: 400px;
+    position: relative;
+    top: 175px;
+    color: rgb(0,188,212);
+    text-align: center;
+}
+
 .validation-summary-errors ul li{
     list-style-type: none;
 }

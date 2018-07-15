@@ -11,6 +11,12 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <main class="mdl-layout__content">
             <div class="page-content" style="height: 600px">
+                @if (ViewBag.Mensagem != null)
+                {
+                    <div class="info-summary">
+                        @Html.Raw(ViewBag.Mensagem)
+                    </div>
+                }
                 @Html.ValidationSummary()
                 @RenderBody()
             </div>
