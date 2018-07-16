@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using MVCIdentity.Identity.Config;
 using MVCIdentity.Identity.Context;
 using MVCIdentity.Identity.Context.Models;
@@ -60,11 +61,11 @@ namespace MVCIdentity.App
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "563362575967-jqh1br1dnv6nl9s42ag2ha4q717tds0t.apps.googleusercontent.com",
+                ClientSecret = "cdqgKnLpcpNH_u-k9EEDMKZu"
+            });
         }
     }
 }

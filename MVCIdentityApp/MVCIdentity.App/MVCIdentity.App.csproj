@@ -201,6 +201,7 @@
     <Content Include="Content\Imagens\android-desktop.png" />
     <Content Include="Content\Imagens\dog.png" />
     <Content Include="Content\Imagens\favicon.png" />
+    <Content Include="Content\Imagens\google-plus.png" />
     <Content Include="Content\Imagens\ios-desktop.png" />
     <Content Include="Content\Imagens\user.jpg" />
     <Content Include="Content\Scripts\material.min.js" />
