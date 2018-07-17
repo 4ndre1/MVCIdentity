@@ -63,7 +63,7 @@ namespace MVCIdentity.App.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.LembrarMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Login inválido!");
                     return View(model);
             }
         }
@@ -378,7 +378,16 @@ namespace MVCIdentity.App.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+
+                    var externalModel = new ExternalLoginConfirmationViewModel
+                    {
+                        Email = loginInfo.Email,
+                        Nome = loginInfo.ExternalIdentity.Name
+                    };
+
+                    return await ExternalLoginConfirmation(externalModel, returnUrl);
+
+                    //return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, Nome = loginInfo.ExternalIdentity.Name });
             }
         }
 
@@ -402,7 +411,7 @@ namespace MVCIdentity.App.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Nome, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -436,11 +445,6 @@ namespace MVCIdentity.App.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 }
