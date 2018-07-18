@@ -8,8 +8,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MVCIdentity.Identity.Config;
-using MVCIdentity.Identity.Context;
 using MVCIdentity.Identity.Context.Models;
 using MVCIdentity.Identity.Model;
 
@@ -426,7 +424,7 @@ namespace MVCIdentity.App.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            return View("ExternalLoginConfirmation", model);
         }
 
         //

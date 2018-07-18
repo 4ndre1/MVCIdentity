@@ -3,14 +3,21 @@
 
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Any()) {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { id = "external-login"})) {
+    if (loginProviders.Any())
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { id = "external-login" }))
+        {
             @Html.AntiForgeryToken()
-            <input type="hidden" id="provider" name="provider" value=""/>
-            foreach (AuthenticationDescription p in loginProviders) {
+            <input type="hidden" id="provider" name="provider" value="" />
+            foreach (AuthenticationDescription p in loginProviders)
+            {
                 if (p.AuthenticationType.ToLower() == "google")
                 {
-                    <img class="icon-external-login" src="~/Content/Imagens/google-plus.png" onclick="trocarValorCampoAutenticacao('@p.AuthenticationType')" title="Login usando seu google+"/>                    
+                    <img class="icon-external-login" src="~/Content/Imagens/google-plus.png" onclick="trocarValorCampoAutenticacao('@p.AuthenticationType')" title="Login usando seu google+" />
+                }
+                if (p.AuthenticationType.ToLower() == "microsoft")
+                {
+                    <img style="width: 100px" class="icon-external-login" src="https://r1.res.office365.com/owalanding/v2.9/images/logo-header.png" onclick="trocarValorCampoAutenticacao('@p.AuthenticationType')" title="Login usando sua conta microsoft" />
                 }
             }
         }
