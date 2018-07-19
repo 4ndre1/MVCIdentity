@@ -92,9 +92,9 @@
     <Compile Include="Context\Models\UserRole.cs" />
     <Compile Include="Context\Stores\RoleStore.cs" />
     <Compile Include="Context\Stores\UserStore.cs" />
-    <Compile Include="Migrations\201807142356044_ChavePrimaryKeyToInt.cs" />
-    <Compile Include="Migrations\201807142356044_ChavePrimaryKeyToInt.Designer.cs">
-      <DependentUpon>201807142356044_ChavePrimaryKeyToInt.cs</DependentUpon>
+    <Compile Include="Migrations\201807172106061_database.cs" />
+    <Compile Include="Migrations\201807172106061_database.Designer.cs">
+      <DependentUpon>201807172106061_database.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AddPhoneNumberViewModel.cs" />
@@ -121,8 +121,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807142356044_ChavePrimaryKeyToInt.resx">
-      <DependentUpon>201807142356044_ChavePrimaryKeyToInt.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807172106061_database.resx">
+      <DependentUpon>201807172106061_database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ namespace MVCIdentity.Identity.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ChavePrimaryKeyToInt : DbMigration
+    public partial class database : DbMigration
     {
         public override void Up()
         {

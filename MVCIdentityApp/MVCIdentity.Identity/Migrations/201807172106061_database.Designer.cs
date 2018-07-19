@@ -7,13 +7,13 @@ namespace MVCIdentity.Identity.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class ChavePrimaryKeyToInt : IMigrationMetadata
+    public sealed partial class database : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChavePrimaryKeyToInt));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(database));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807142356044_ChavePrimaryKeyToInt"; }
+            get { return "201807172106061_database"; }
         }
         
         string IMigrationMetadata.Source

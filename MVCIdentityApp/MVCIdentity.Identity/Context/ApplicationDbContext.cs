@@ -8,7 +8,7 @@ namespace MVCIdentity.Identity.Context
     public class ApplicationDbContext : IdentityDbContext<User, Role, int, UserLogin, UserRole, UserClaim>, IDisposable
     {
         public ApplicationDbContext()
-            : base("Identity")
+            : base("Identity2")
         {
         }
 
