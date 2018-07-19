@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MVCIdentity.App.Util.Extensions;
 using MVCIdentity.Identity.Model;
 
 namespace MVCIdentity.App.Controllers
@@ -39,6 +40,9 @@ namespace MVCIdentity.App.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString())
             };
+
+            ViewBag.EmailAuth = User.Identity.GetEmailAdress(Context);
+
             return View(model);
         }
 

@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using MVCIdentity.Identity.Context;
 
 namespace MVCIdentity.App.Controllers
 {
@@ -11,10 +12,11 @@ namespace MVCIdentity.App.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context { get; set; }
 
         public IdentityController() { }
 
-        public IdentityController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public IdentityController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext context)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -44,6 +46,18 @@ namespace MVCIdentity.App.Controllers
             }
         }
 
+        public ApplicationDbContext Context
+        {
+            get
+            {
+                return _context ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            }
+            private set
+            {
+                _context = value;
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -58,6 +72,12 @@ namespace MVCIdentity.App.Controllers
                 {
                     _signInManager.Dispose();
                     _signInManager = null;
+                }
+
+                if (_context != null)
+                {
+                    _context.Dispose();
+                    _context = null;
                 }
             }
         }
