@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.MicrosoftAccount;
 using MVCIdentity.Identity.Config;
 using MVCIdentity.Identity.Context;
 using MVCIdentity.Identity.Context.Models;
@@ -49,9 +51,11 @@ namespace MVCIdentity.App
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication( new MicrosoftAccountAuthenticationOptions() { 
+                ClientId = ConfigurationManager.AppSettings["ClientIdMicrosoft"],
+                ClientSecret = ConfigurationManager.AppSettings["ClientSecretMicrosoft"],
+                Scope = { "wl.basic", "wl.emails" }
+            });
 
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
@@ -63,8 +67,8 @@ namespace MVCIdentity.App
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "563362575967-jqh1br1dnv6nl9s42ag2ha4q717tds0t.apps.googleusercontent.com",
-                ClientSecret = "cdqgKnLpcpNH_u-k9EEDMKZu"
+                ClientId = ConfigurationManager.AppSettings["ClientIdGoogle"],
+                ClientSecret = ConfigurationManager.AppSettings["ClientSecretGoogle"],
             });
         }
     }
