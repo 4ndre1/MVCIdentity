@@ -6,18 +6,18 @@ namespace MVCIdentity.Identity.Model
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
-        public string OldPassword { get; set; }
+        [Display(Name = "Senha atual")]
+        public string SenhaAtual { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
-        public string NewPassword { get; set; }
+        [Display(Name = "Nova senha")]
+        public string NovaSenha { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        [Display(Name = "Confirmar nova senha")]
+        [Compare("NovaSenha", ErrorMessage = "A nova senha e a confirmação de senha não estão iguais.")]
+        public string ConfirmarNovaSenha { get; set; }
     }
 }

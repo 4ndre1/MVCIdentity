@@ -12,7 +12,7 @@
             @if (ViewBag.StatusMessage != null)
             {
                 <div class="info-summary">
-                    @ViewBag.Mensagem
+                    @ViewBag.StatusMessage
                 </div>
             }
             Gerencie sua conta.<br/><br/>
@@ -25,20 +25,17 @@
                 <p><i class="material-icons">lock_outline</i>@Html.ActionLink("Criar senha", "SetPassword")</p>
             }
 
-            @if (Model.Logins.Any())
-            {
-                <p>
-                    <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new {id = "tt1"})
-                    <div class="mdl-tooltip" data-mdl-for="tt1">
-                        @Model.Logins.Count Login(s) externo(s)
-                    </div>
-                </p>
-            }
+            <p>
+                <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new {id = "tt1"})
+                <div class="mdl-tooltip" data-mdl-for="tt1">
+                    @Model.Logins.Count Login(s) externo(s)
+                </div>
+            </p>
+            
         </div>
     </div>
 </div>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <dl class="dl-horizontal">
         @*
@@ -48,8 +45,7 @@
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
 
              Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*
+
             <dt>Phone Number:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")

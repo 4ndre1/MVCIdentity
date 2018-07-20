@@ -84,7 +84,7 @@ namespace MVCIdentity.App.Controllers
 
         #region Helpers
         // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
+        public const string XsrfKey = "XsrfId";
 
         public IAuthenticationManager AuthenticationManager
         {

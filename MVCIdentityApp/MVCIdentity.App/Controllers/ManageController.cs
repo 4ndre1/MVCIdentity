@@ -14,8 +14,21 @@ namespace MVCIdentity.App.Controllers
     [Authorize]
     public class ManageController : IdentityController
     {
+        private static string _emailUsuario;
+
         public ManageController() : base()
         {
+        }
+
+        private string GetEmailAdress()
+        {
+            if (string.IsNullOrWhiteSpace(_emailUsuario))
+            {
+                _emailUsuario = User.Identity.GetEmailAdress(Context);
+                return _emailUsuario;
+            }
+
+            return _emailUsuario;
         }
 
         //
@@ -41,7 +54,7 @@ namespace MVCIdentity.App.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString())
             };
 
-            ViewBag.EmailAuth = User.Identity.GetEmailAdress(Context);
+            ViewBag.EmailAuth = GetEmailAdress();
 
             return View(model);
         }
@@ -204,6 +217,8 @@ namespace MVCIdentity.App.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            ViewBag.EmailAuth = GetEmailAdress();
+
             return View();
         }
 
@@ -220,7 +235,7 @@ namespace MVCIdentity.App.Controllers
 
             var id = Convert.ToInt32(User.Identity.GetUserId());
 
-            var result = await UserManager.ChangePasswordAsync(id, model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(id, model.SenhaAtual, model.NovaSenha);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(id);
@@ -230,6 +245,7 @@ namespace MVCIdentity.App.Controllers
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
+            ViewBag.EmailAuth = GetEmailAdress();
             AddErrors(result);
             return View(model);
         }
@@ -238,6 +254,8 @@ namespace MVCIdentity.App.Controllers
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
+            ViewBag.EmailAuth = GetEmailAdress();
+
             return View();
         }
 
@@ -251,7 +269,7 @@ namespace MVCIdentity.App.Controllers
             {
                 var id = Convert.ToInt32(User.Identity.GetUserId());
 
-                var result = await UserManager.AddPasswordAsync(id, model.NewPassword);
+                var result = await UserManager.AddPasswordAsync(id, model.NovaSenha);
                 if (result.Succeeded)
                 {
                     var user = await UserManager.FindByIdAsync(id);
@@ -264,6 +282,8 @@ namespace MVCIdentity.App.Controllers
                 AddErrors(result);
             }
 
+            ViewBag.EmailAuth = GetEmailAdress();
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -273,8 +293,8 @@ namespace MVCIdentity.App.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "O login externo foi removido com sucesso!"
+                : message == ManageMessageId.Error ? "Um error ocorreu!"
                 : "";
 
             var id = Convert.ToInt32(User.Identity.GetUserId());
@@ -304,7 +324,7 @@ namespace MVCIdentity.App.Controllers
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
+            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
         //
@@ -323,30 +343,7 @@ namespace MVCIdentity.App.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
 
         private bool HasPassword()
         {

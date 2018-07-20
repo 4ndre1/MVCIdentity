@@ -214,15 +214,26 @@ _:-ms-input-placeholder, :root .demo-graph {
           align-items: center;
 }
 
+.validation-summary-errors {
+    width: 400px;
+    color: #d50000;
+}
+
+.validation-summary-errors ul li{
+    list-style-type: none;
+}
+
 .info-summary {
     margin: auto;
     width: 400px;
-    position: relative;
-    top: 175px;
     color: rgb(0,188,212);
     text-align: center;
 }
 
 .icon-external-login:hover {
     cursor: pointer;
+}
+
+.text-right {
+    text-align: right;
 }

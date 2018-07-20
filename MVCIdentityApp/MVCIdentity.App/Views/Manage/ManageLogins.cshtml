@@ -22,51 +22,56 @@
                 {
                     <div>
                         <p>
-                            Não há login externo configurado nesta conta!
+                            Não há login externo configurado!
                         </p>
                     </div>
                 }
                 else
                 {
-                    <h4>Logins registrados</h4>
-                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                        <thead>
-                        <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Provedor de login</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var account in Model.CurrentLogins)
-                        {
-                            <tr>
-                                <td>@account.LoginProvider</td>
-                                <td>
-                                    @if (ViewBag.ShowRemoveButton)
-                                    {
-                                        using (Html.BeginForm("RemoveLogin", "Manage"))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <div>
-                                                @Html.Hidden("loginProvider", account.LoginProvider)
-                                                @Html.Hidden("providerKey", account.ProviderKey)
-                                                <button type="submit" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" title="Remova este @account.LoginProvider do seu">
-                                                    <i class="material-icons">delete_forever</i>
-                                                </button>
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        @:&nbsp;
-                                    }
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                     if (Model.OtherLogins.Count > 0)
-                     {
+                    if (Model.CurrentLogins.Any())
+                    {
+
+                        <h4>Logins registrados</h4>
+                        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                             <thead>
+                             <tr>
+                                 <th class="mdl-data-table__cell--non-numeric">Provedor de login</th>
+                                 <th>&nbsp;</th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             @foreach (var account in Model.CurrentLogins)
+                             {
+                                 <tr>
+                                     <td>@account.LoginProvider</td>
+                                     <td>
+                                         @if (ViewBag.ShowRemoveButton)
+                                         {
+                                             using (Html.BeginForm("RemoveLogin", "Manage"))
+                                             {
+                                                 @Html.AntiForgeryToken()
+                                                 <div>
+                                                     @Html.Hidden("loginProvider", account.LoginProvider)
+                                                     @Html.Hidden("providerKey", account.ProviderKey)
+                                                     <button type="submit" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" title="Remova este @account.LoginProvider do seu">
+                                                         <i class="material-icons">delete_forever</i>
+                                                     </button>
+                                                 </div>
+                                             }
+                                         }
+                                         else
+                                         {
+                                             @:&nbsp;
+                                         }
+                                     </td>
+                                 </tr>
+                             }
+                             </tbody>
+                         </table>
+
+                    }
+                    if (Model.OtherLogins.Count > 0)
+                    {
                          <h4>Registra mais um login</h4>
                         using (Html.BeginForm("LinkLogin", "Manage", FormMethod.Post, new { id = "external-login" }))
                         {
