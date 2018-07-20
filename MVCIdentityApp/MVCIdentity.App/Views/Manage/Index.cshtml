@@ -9,7 +9,13 @@
             <h2 class="mdl-card__title-text">Gerenciar conta</h2>
         </div>
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            Gerencie sua conta.<br /><br/>
+            @if (ViewBag.StatusMessage != null)
+            {
+                <div class="info-summary">
+                    @ViewBag.Mensagem
+                </div>
+            }
+            Gerencie sua conta.<br/><br/>
             @if (Model.HasPassword)
             {
                 <p><i class="material-icons">lock_open</i>@Html.ActionLink("Mudar senha", "ChangePassword")</p>
@@ -18,11 +24,11 @@
             {
                 <p><i class="material-icons">lock_outline</i>@Html.ActionLink("Criar senha", "SetPassword")</p>
             }
-            
+
             @if (Model.Logins.Any())
             {
                 <p>
-                    <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new { id = "tt1"})
+                    <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new {id = "tt1"})
                     <div class="mdl-tooltip" data-mdl-for="tt1">
                         @Model.Logins.Count Login(s) externo(s)
                     </div>

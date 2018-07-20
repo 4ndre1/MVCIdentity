@@ -4,67 +4,102 @@
     ViewBag.Title = "Manage your external logins";
 }
 
-<h2>@ViewBag.Title.</h2>
-
-<p class="text-success">@ViewBag.StatusMessage</p>
-@{
-    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0) {
-        <div>
-            <p>
-                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
-                for details on setting up this ASP.NET application to support logging in via external services.
-            </p>
+<div class="demo-cards mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid mdl-grid--no-spacing">
+    <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
+        <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+            <h2 class="mdl-card__title-text">Logins externo</h2>
         </div>
-    }
-    else
-    {
-        if (Model.CurrentLogins.Count > 0)
-        {
-            <h4>Registered Logins</h4>
-            <table class="table">
-                <tbody>
-                    @foreach (var account in Model.CurrentLogins)
-                    {
-                        <tr>
-                            <td>@account.LoginProvider</td>
-                            <td>
-                                @if (ViewBag.ShowRemoveButton)
-                                {
-                                    using (Html.BeginForm("RemoveLogin", "Manage"))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <div>
-                                            @Html.Hidden("loginProvider", account.LoginProvider)
-                                            @Html.Hidden("providerKey", account.ProviderKey)
-                                            <input type="submit" class="btn btn-default" value="Remove" title="Remove this @account.LoginProvider login from your account" />
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    @: &nbsp;
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        if (Model.OtherLogins.Count > 0)
-        {
-            using (Html.BeginForm("LinkLogin", "Manage"))
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            @if (ViewBag.StatusMessage != null)
             {
-                @Html.AntiForgeryToken()
-                <div id="socialLoginList">
-                <p>
-                    @foreach (AuthenticationDescription p in Model.OtherLogins)
-                    {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-                    }
-                </p>
+                <div class="info-summary">
+                    @ViewBag.StatusMessage
                 </div>
             }
+            @{
+                var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                if (loginProviders.Count() == 0)
+                {
+                    <div>
+                        <p>
+                            Não há login externo configurado nesta conta!
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <h4>Logins registrados</h4>
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Provedor de login</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var account in Model.CurrentLogins)
+                        {
+                            <tr>
+                                <td>@account.LoginProvider</td>
+                                <td>
+                                    @if (ViewBag.ShowRemoveButton)
+                                    {
+                                        using (Html.BeginForm("RemoveLogin", "Manage"))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <div>
+                                                @Html.Hidden("loginProvider", account.LoginProvider)
+                                                @Html.Hidden("providerKey", account.ProviderKey)
+                                                <input type="submit" class="btn btn-default" value="Remove" title="Remove this @account.LoginProvider login from your account" />
+                                                <button type="submit" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" title="Remova este @account.LoginProvider do seu">
+                                                    <i class="material-icons">delete_forever</i>
+                                                </button>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @:&nbsp;
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                     if (Model.OtherLogins.Count > 0)
+                     {
+                         <h4>Registra mais um login</h4>
+                        using (Html.BeginForm("LinkLogin", "Manage", FormMethod.Post, new { id = "external-login" }))
+                        {
+                             @Html.AntiForgeryToken()
+                             <input type="hidden" id="provider" name="provider" value="" />    
+                             foreach (AuthenticationDescription p in Model.OtherLogins)
+                             {
+                                 if (p.AuthenticationType.ToLower() == "google")
+                                 {
+                                     <img class="icon-external-login" src="~/Content/Imagens/google-plus.png" onclick="trocarValorCampoAutenticacao('@p.AuthenticationType')" title="Login usando seu google+" />
+                                 }
+                                 if (p.AuthenticationType.ToLower() == "microsoft")
+                                 {
+                                 <img style="width: 100px" class="icon-external-login" src="https://r1.res.office365.com/owalanding/v2.9/images/logo-header.png" onclick="trocarValorCampoAutenticacao('@p.AuthenticationType')" title="Login usando sua conta microsoft" />
+                                 }
+                             }
+                         }
+                     }
+                }
+                
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        //Helper javascript para providers externos!
+        function trocarValorCampoAutenticacao(valor) {
+            document.getElementById('provider').value = valor;
+            document.getElementById('external-login').submit();
         }
-    }
+    </script>
 }

@@ -286,7 +286,10 @@ namespace MVCIdentity.App.Controllers
             }
             var userLogins = await UserManager.GetLoginsAsync(id);
             var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+            ViewBag.EmailAuth = user.Email;
+
             return View(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
