@@ -2,7 +2,7 @@
     margin: auto;
     width: 400px;
     position: relative;
-    top: 175px;
+    top: 120px;
     color: #d50000;
 }
 
@@ -10,7 +10,7 @@
     margin: auto;
     width: 400px;
     position: relative;
-    top: 175px;
+    top: 120px;
     color: rgb(0,188,212);
     text-align: center;
 }
@@ -22,7 +22,7 @@
 .mdl-card-center {
     margin: auto;
     position: relative;
-    top: 180px;
+    top: 110px;
 }
 
 .mdl-card__title {
@@ -38,7 +38,7 @@
     width: 330px;
     margin: auto;
     position: relative;
-    top: 190px;
+    top: 115px;
     text-align: center;
 }
 

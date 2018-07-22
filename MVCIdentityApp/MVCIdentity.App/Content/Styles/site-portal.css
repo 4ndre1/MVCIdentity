@@ -215,7 +215,6 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .validation-summary-errors {
-    width: 400px;
     color: #d50000;
 }
 

@@ -89,6 +89,8 @@ namespace MVCIdentity.App.Controllers
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
+            ViewBag.EmailAuth = GetEmailAdress();
+
             return View();
         }
 
@@ -106,17 +108,27 @@ namespace MVCIdentity.App.Controllers
             var id = Convert.ToInt32(User.Identity.GetUserId());
 
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, model.Number);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, model.NumeroCelular);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
-                    Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Destination = model.NumeroCelular,
+                    Body = "Seu codigo de seguranca e: " + code
                 };
-                await UserManager.SmsService.SendAsync(message);
+
+                try
+                {
+                    await UserManager.SmsService.SendAsync(message);
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                    return View("AddPhoneNumber");
+                }
+
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.NumeroCelular });
         }
 
         //
@@ -161,7 +173,7 @@ namespace MVCIdentity.App.Controllers
 
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { NumeroCelular = phoneNumber });
         }
 
         //
@@ -177,7 +189,7 @@ namespace MVCIdentity.App.Controllers
 
             var id = Convert.ToInt32(User.Identity.GetUserId());
 
-            var result = await UserManager.ChangePhoneNumberAsync(id, model.PhoneNumber, model.Code);
+            var result = await UserManager.ChangePhoneNumberAsync(id, model.NumeroCelular, model.Code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(id);
@@ -188,7 +200,7 @@ namespace MVCIdentity.App.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "Código errado!");
             return View(model);
         }
 

@@ -6,7 +6,7 @@ namespace MVCIdentity.Identity.Model
     {
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
-        public string Number { get; set; }
+        [Display(Name = "Número de celular")]
+        public string NumeroCelular { get; set; }
     }
 }

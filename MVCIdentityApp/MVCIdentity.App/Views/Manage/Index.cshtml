@@ -1,6 +1,6 @@
 ﻿@model MVCIdentity.Identity.Model.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Gerenciar";
 }
 
 <div class="demo-cards mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid mdl-grid--no-spacing">
@@ -15,7 +15,7 @@
                     @ViewBag.StatusMessage
                 </div>
             }
-            Gerencie sua conta.<br/><br/>
+            Gerencie sua conta.<br /><br />
             @if (Model.HasPassword)
             {
                 <p><i class="material-icons">lock_open</i>@Html.ActionLink("Mudar senha", "ChangePassword")</p>
@@ -26,12 +26,59 @@
             }
 
             <p>
-                <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new {id = "tt1"})
+                <i class="material-icons">people_outline</i>@Html.ActionLink("Gerenciar logins externos", "ManageLogins", null, new { id = "tt1" })
                 <div class="mdl-tooltip" data-mdl-for="tt1">
                     @Model.Logins.Count Login(s) externo(s)
                 </div>
             </p>
-            
+
+            @if (Model.PhoneNumber != null)
+            {
+                <p>
+                    <i class="material-icons">stay_primary_portrait</i>
+                    @Html.ActionLink("Trocar o número de telefone", "AddPhoneNumber")
+                    @*@using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                            <i class="material-icons">delete_forever</i>
+                        </button>
+                    }*@
+                </p>
+            }
+            else
+            {
+                <p>
+                    <i class="material-icons">stay_primary_portrait</i>
+                    @Html.ActionLink("Adicionar um número de telefone", "AddPhoneNumber")
+                </p>
+            }
+
+            @if (Model.TwoFactor)
+            {
+                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { id = "two-factor", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch">
+                        <input type="checkbox" id="switch" class="mdl-switch__input" checked
+                               onclick="trocarTextoSwitch();document.getElementById('two-factor').submit();">
+                        <span id="label-switch" class="mdl-switch__label">Habilitado autenticação de 2 fatores</span>
+                    </label>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { id = "two-factor", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch">
+                        <input type="checkbox" id="switch" class="mdl-switch__input"
+                               onclick="trocarTextoSwitch();document.getElementById('two-factor').submit();">
+                        <span id="label-switch" class="mdl-switch__label">Desabilitado autentição de 2 fatores</span>
+                    </label>
+                }
+            }
+
         </div>
     </div>
 </div>
@@ -94,3 +141,19 @@
         </dd>
     </dl>
 </div>
+
+@section scripts
+{
+    <script>
+        function trocarTextoSwitch() {
+            if (document.getElementById("switch").checked) {
+                document.getElementById("label-switch").innerHTML = "Habilitado autenticação de 2 fatores";
+
+            } else {
+                document.getElementById("label-switch").innerHTML = "Desabilitado autentição de 2 fatores";
+            }
+        }
+
+        trocarTextoSwitch();
+    </script>
+}
