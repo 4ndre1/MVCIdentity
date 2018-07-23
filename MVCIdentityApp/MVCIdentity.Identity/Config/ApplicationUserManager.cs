@@ -49,7 +49,7 @@ namespace MVCIdentity.Identity.Config
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<User, int>
             {
-                MessageFormat = "Seu código de segurança é: {0}"
+                MessageFormat = "Seu codigo de seguranca e: {0}"
             });
 
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<User, int>

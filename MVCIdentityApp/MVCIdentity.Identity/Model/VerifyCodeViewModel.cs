@@ -13,13 +13,12 @@ namespace MVCIdentity.Identity.Model
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Código")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
-        public bool RememberBrowser { get; set; }
+        public bool LembrarNavegador { get; set; }
 
-        public bool RememberMe { get; set; }
+        public bool LembrarMe { get; set; }
     }
 }

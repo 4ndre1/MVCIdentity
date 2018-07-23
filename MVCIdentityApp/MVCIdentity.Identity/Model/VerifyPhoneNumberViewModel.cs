@@ -5,7 +5,7 @@ namespace MVCIdentity.Identity.Model
     public class VerifyPhoneNumberViewModel
     {
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Código")]
         public string Code { get; set; }
 
         [Required]

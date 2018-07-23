@@ -38,7 +38,8 @@ namespace MVCIdentity.App
                         validateInterval: TimeSpan.FromMinutes(2),
                         regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager),
                         getUserIdCallback: (id) => int.Parse(id.GetUserId()))
-                }
+                },
+                ExpireTimeSpan = TimeSpan.FromDays(3)
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

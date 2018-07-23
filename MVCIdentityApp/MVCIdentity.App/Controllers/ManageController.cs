@@ -47,8 +47,8 @@ namespace MVCIdentity.App.Controllers
             var userId = int.Parse(User.Identity.GetUserId());
             var model = new IndexViewModel
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                TemSenha = HasPassword(),
+                NumeroCelular = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId.ToString())
@@ -87,11 +87,16 @@ namespace MVCIdentity.App.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
+        public ActionResult AddPhoneNumber(string numero)
         {
             ViewBag.EmailAuth = GetEmailAdress();
+            if (string.IsNullOrWhiteSpace(numero))
+            {
+                return View();
+            }
 
-            return View();
+            return View(new AddPhoneNumberViewModel { NumeroCelular = numero });
+
         }
 
         //
@@ -128,7 +133,7 @@ namespace MVCIdentity.App.Controllers
                 }
 
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.NumeroCelular });
+            return RedirectToAction("VerifyPhoneNumber", new { Numero = model.NumeroCelular });
         }
 
         //
@@ -167,13 +172,13 @@ namespace MVCIdentity.App.Controllers
 
         //
         // GET: /Manage/VerifyPhoneNumber
-        public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
+        public async Task<ActionResult> VerifyPhoneNumber(string numero)
         {
-            var id = Convert.ToInt32(User.Identity.GetUserId());
+            //var id = Convert.ToInt32(User.Identity.GetUserId());
 
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, phoneNumber);
+            //var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, numero);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { NumeroCelular = phoneNumber });
+            return numero == null ? View("Error") : View(new VerifyPhoneNumberViewModel { NumeroCelular = numero });
         }
 
         //

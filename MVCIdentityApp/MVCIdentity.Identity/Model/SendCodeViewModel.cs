@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,10 @@ namespace MVCIdentity.Identity.Model
 {
     public class SendCodeViewModel
     {
-        public string SelectedProvider { get; set; }
+        [Display(Name = "Tipo de envio")]
+        public string ProviderSelecionado { get; set; }
         public ICollection<SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
+        public bool LembrarMe { get; set; }
     }
 }

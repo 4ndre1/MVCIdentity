@@ -1,10 +1,16 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Locked Out";
+    ViewBag.Title = "Conta bloqueada";
 }
 
-<hgroup>
-    <h1 class="text-danger">Locked out.</h1>
-    <h2 class="text-danger">This account has been locked out, please try again later.</h2>
-</hgroup>
+<div class="mdl-card mdl-card-center mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card--expand">
+        <h4 class="mdl-card__title-text">Conta bloqueada! <i class="material-icons">highlight_off</i></h4>
+    </div>
+    <div class="mdl-card__supporting-text" style="text-align: justify">
+        <p>
+           Esta conta foi bloqueada temporariamente. Por favor tente mais tarde para obter acesso!
+        </p>
+    </div>
+</div>
